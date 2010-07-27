@@ -1,0 +1,91 @@
+html, body, #preloader {
+	width: 100%;	/* make the body expand to fill the visible window */
+	height: 100%;
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
+	font-size: 100%;
+}
+
+#preloader {
+	background: #FFF url('http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/image/resources/images/loading.gif') no-repeat center center;
+	position: absolute;
+	z-index: 999;
+}
+
+#contentContainer {
+	width: 906px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20px;
+}
+
+#animationContainer {
+	width: 900px;
+	margin-bottom: 10px;
+}
+#animation {
+	border-left: 3px solid #aaa;
+	border-right: 3px solid #aaa;
+	height: 158px;
+	width: 900px;
+}
+#animationControls {
+	width: 900px;
+}
+#durationContainer {
+	text-align: right;
+}
+#slider {
+	width: 100%;
+}
+
+#infoContainer {
+	width: 900px;
+	height: 300px;
+	margin-left: 3px;
+	margin-right: 3px;
+}
+
+#chartContainer {
+	float: left;
+	width: 598px;
+	height: 298px;
+	border: 1px solid #aaa;
+}
+
+#easingChart {
+	width: 598px;
+	height: 298px;
+}
+
+#easingTitle {
+	float: left;
+	margin: 10px 10px;
+	display: inline-block;
+	font-size: 1.2em;
+}
+#buttonContainer {
+	display: inline-block;
+	float: right;
+}
+#formContainer {
+	float: left;
+	width: 300px;
+}
+#formContainer form {
+	clear: both;
+	width: 230px;
+	margin-left: auto;
+	margin-right: auto;
+}
+#formContainer tbody th {
+	text-align: right;
+}
+#formContainer td,
+#formContainer thead th {
+	width: 45px;
+	text-align: center;
+}
+#formContainer label {
+	margin-right: 10px;
+}

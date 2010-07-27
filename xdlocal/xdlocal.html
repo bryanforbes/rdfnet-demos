@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>XDomain Build With Local Modules</title>
+	<style type="text/css">
+		@import "http://o.aolcdn.com/dojo/1.4.3/dijit/themes/tundra/tundra.css";
+	</style>
+	<script type="text/javascript">
+		var djConfig = {
+			isDebug: true,
+			parseOnLoad: true,
+			baseUrl: './',
+			modulePaths: {
+				'my': 'my'
+			}
+		};
+	</script>
+	<script type="text/javascript" src="http://o.aolcdn.com/dojo/1.4.3/dojo/dojo.xd.js"></script>
+	<script type="text/javascript">
+		dojo.require("my.Foo");
+	</script>
+<!--@GA_SNIPPET@-->
+</head>
+<body class="tundra">
+	<button dojoType="my.Foo">
+		This is a "my.Foo" button.
+	</button>
+</body>
+</html>
