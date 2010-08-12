@@ -42,7 +42,11 @@ dojo.declare("my.Chart2D", dojox.charting.Chart2D, {
 				});
 
 				// Set the font and font color
-				elem.setFont(axis.opt.font || theme_font).setFill(axis.opt.fontColor || theme_font_color);
+				elem.setFont(
+					axis.opt.font || theme_font
+				).setFill(
+					axis.opt.fontColor || theme_font_color
+				);
 
 				// If the axis is vertical, rotate and move into position,
 				// otherwise just move into position.
