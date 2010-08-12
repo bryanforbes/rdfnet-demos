@@ -46,7 +46,7 @@ d
 	done
 fi
 
-DEMO_REMOTE=~/rdf.net/demos/
+DEMO_REMOTE=/home/bryan/rdf.net/demos/
 echo "Uploading to $DEMO_REMOTE"
 
 cd .packaging
