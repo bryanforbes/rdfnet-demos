@@ -1,16 +1,18 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
+	<meta charset="utf-8">
+
 	<title>Easing Chart</title>
-	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/claro/claro.css"/>
-	<link rel="stylesheet" type="text/css" href="easing_chart.css"/>
+	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/claro/claro.css">
+	<link rel="stylesheet" href="easing_chart.css">
 <!--@GA_SNIPPET@-->
 </head>
 <body class="claro">
 	<div id="preloader"></div>
 	<div id="contentContainer">
 		<div id="animationContainer">
-			<div id="animation"></div>
+			<div jsid="ballSurface" dojoType="my.BallSurface" id="animation"></div>
 			<table id="animationControls"><tbody><tr>
 				<td>Animation Duration:</td>
 				<td id="durationContainer">
@@ -34,7 +36,7 @@
 				</div>
 				<form dojoType="dijit.form.Form" jsid="easingForm">
 					<input dojoType="dijit.form.RadioButton" id="linear" name="easing" value="linear"
-						type="radio" group="checkbox" checked />
+						type="radio" group="checkbox" checked>
 					<label for="linear">Linear</label>
 					<table id="controls"><thead><tr>
 						<th></th>
@@ -51,25 +53,25 @@
 						<th>Quad</th>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="quadIn" name="easing" value="quadIn"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="quadOut" name="easing" value="quadOut"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="quadInOut" name="easing" value="quadInOut"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 					</tr><tr>
 						<th>Cubic</th>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="cubicIn" name="easing" value="cubicIn"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="cubicOut" name="easing" value="cubicOut"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="cubicInOut" name="easing" value="cubicInOut"
@@ -79,113 +81,113 @@
 						<th>Quart</th>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="quartIn" name="easing" value="quartIn"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="quartOut" name="easing" value="quartOut"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="quartInOut" name="easing" value="quartInOut"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 					</tr><tr>
 						<th>Quint</th>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="quintIn" name="easing" value="quintIn"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="quintOut" name="easing" value="quintOut"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="quintInOut" name="easing" value="quintInOut"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 					</tr><tr>
 						<th>Sine</th>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="sineIn" name="easing" value="sineIn"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="sineOut" name="easing" value="sineOut"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="sineInOut" name="easing" value="sineInOut"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 					</tr><tr>
 						<th>Exponential</th>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="expoIn" name="easing" value="expoIn"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="expoOut" name="easing" value="expoOut"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="expoInOut" name="easing" value="expoInOut"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 					</tr><tr>
 						<th>Circular</th>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="circIn" name="easing" value="circIn"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="circOut" name="easing" value="circOut"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="circInOut" name="easing" value="circInOut"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 					</tr><tr>
 						<th>Back</th>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="backIn" name="easing" value="backIn"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="backOut" name="easing" value="backOut"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="backInOut" name="easing" value="backInOut"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 					</tr><tr>
 						<th>Elastic</th>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="elasticIn" name="easing" value="elasticIn"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="elasticOut" name="easing" value="elasticOut"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="elasticInOut" name="easing"
-								value="elasticInOut" type="radio" group="checkbox"/>
+								value="elasticInOut" type="radio" group="checkbox">
 						</td>
 					</tr><tr>
 						<th>Bounce</th>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="bounceIn" name="easing" value="bounceIn"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="bounceOut" name="easing" value="bounceOut"
-								type="radio" group="checkbox"/>
+								type="radio" group="checkbox">
 						</td>
 						<td>
 							<input dojoType="dijit.form.RadioButton" id="bounceInOut" name="easing"
-								value="bounceInOut" type="radio" group="checkbox"/>
+								value="bounceInOut" type="radio" group="checkbox">
 						</td>
 					</tr></tbody></table>
 				</form>
@@ -193,8 +195,16 @@
 		</div>
 	</div>
 
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/dojo.xd.js"
-		djConfig="parseOnLoad: true"></script>
-	<script type="text/javascript" src="easing_chart.js"></script>
+	<script>
+		var djConfig = {
+			parseOnLoad: true,
+			baseUrl: './',
+			modulePaths: {
+				'my': 'my'
+			}
+		};
+	</script>
+	<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/dojo.xd.js"></script>
+	<script src="easing_chart.js"></script>
 </body>
 </html>
