@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="refresh" content="2;url=">
+	<title>Leak Fix Attept 2</title>
+	<script src="helper.js"></script>
+	<script>
+		var _evtData = {};
+		(function(global){
+			var _listen, _stopListening, normalizeEventName, _nextId = 0, _eo = {};
+			if(isHostType(document, "addEventListener")){
+				_listen = function _listen(obj, evt, handler){
+					obj.addEventListener(evt, handler, false);
+				};
+				_stopListening = function _stopListening(obj, evt, handler){
+					obj.removeEventListener(evt, handler, false);
+				};
+				normalizeEventName = function normalizeEventName(/*String*/ name){
+					// Generally, name should be lower case, unless it is special
+					// somehow (e.g. a Mozilla DOM event).
+					// Remove 'on'.
+					return name.slice(0,2) =="on" ? name.slice(2) : name;
+				};
+			}else if(isHostType(document, "attachEvent")){
+				_listen = function _listen(obj, evt, handler){
+					obj.attachEvent(evt, handler);
+				};
+				_stopListening = function _stopListening(obj, evt, handler){
+					obj.detachEvent(evt, handler);
+				};
+				normalizeEventName = function normalizeEventName(/*String*/ eventName){
+					// Generally, eventName should be lower case, unless it is
+					// special somehow (e.g. a Mozilla event)
+					// ensure 'on'
+					return eventName.slice(0,2) != "on" ? "on" + eventName : eventName;
+				};
+			}
+
+			var createHandler = function(id, evtName, idx){
+				return function(){
+					if((id in _evtData) && (evtName in _evtData[id]) && (idx in _evtData[id][evtName])){
+						_evtData[id][evtName][idx].handler.apply(this, arguments);
+					}
+				};
+			};
+
+			function listen(obj, evt, handler){
+				var e = normalizeEventName(evt);
+				var id;
+				if(!obj.id){
+					var nid = _nextId++;
+					id = "_some_id_" + nid;
+				}else{
+					id = obj.id;
+				}
+				if(!(id in _evtData)){
+					_evtData[id] = {};
+				}
+				if(!(e in _evtData[id])){
+					_evtData[id][e] = [];
+				}
+				var hid = _evtData[id][e].length;
+				var wrapper = createHandler(id, e, hid);
+				_evtData[id][e][hid] = {
+					wrapper: wrapper,
+					handler: handler
+				};
+				_listen(obj, e, wrapper);
+
+				return [id, e, hid];
+			}
+			function stopListening(handle){
+				if((handle[0] in _evtData) && (handle[1] in _evtData[handle[0]])){
+					var handlers = _evtData[handle[0]][handle[1]];
+					var e = document.getElementById(handle[0]);
+					if(e){
+						_stopListening(e, handle[1], handlers[handle[2]].wrapper);
+					}
+					delete handlers[handle[2]];
+				}
+			}
+
+			global.listen = listen;
+			global.stopListening = stopListening;
+		})(this);
+	</script>
+</head>
+<body>
+	<div id="container"></div>
+	<script>
+		(function(){
+            var i =-1, l = 1000, container = document.getElementById("container");
+            while (++i < l){
+				var e = document.createElement("div");
+				(function(elem){
+					function LeakFunc(){
+						elem.innerHTML = "foo";
+					}
+					listen(elem, "onclick", LeakFunc);
+					container.appendChild(elem);
+				})(e);
+			}
+			container.innerHTML = "";
+		})();
+	</script>
+</html>

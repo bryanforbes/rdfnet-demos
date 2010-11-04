@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="refresh" content="2;url=">
+	<title>Leak Fixed with onunload 2</title>
+	<script src="helper.js"></script>
+	<script>
+		(function(global){
+			var _evtData = {}, _emptyObject = {}, _nextId = 0,
+				unloadAttached = false;
+
+			function attachUnload(){
+				if(isHostType(document, "attachEvent")){
+					// one onunload handler to rule them all
+					global.attachEvent("onunload", function(){
+						for(var i in _evtData){
+							if(!(i in _emptyObject)){
+								stopListening(i);
+							}
+						}
+					});
+				}
+				unloadAttached = true;
+			}
+
+			function listen(obj, evt, handler){
+				var id = _nextId++,
+					e = normalizeEventName(evt);
+				_listen(obj, e, handler);
+				_evtData[id] = [obj, e, handler];
+
+				if(!unloadAttached){
+					attachUnload();
+				}
+				return id;
+			}
+			function stopListening(id){
+				if(id in _evtData){
+					var data = _evtData[id];
+					_stopListening.apply(null, data);
+					delete _evtData[id];
+				}
+			}
+
+			global.listen = listen;
+			global.stopListening = stopListening;
+		})(this);
+	</script>
+</head>
+<body>
+	<div id="container"></div>
+	<script>
+		(function(){
+			var i =-1, l = 1000, container = document.getElementById("container");
+			while (++i < l){
+				var e = document.createElement("div");
+				(function(elem){
+					function LeakFunc(){
+						elem.innerHTML = "foo";
+					}
+					listen(elem, "onclick", LeakFunc);
+					container.appendChild(elem);
+				})(e);
+			}
+			container.innerHTML = "";
+		})();
+	</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="refresh" content="2;url=">
+	<title>Leak Fixed with Scope</title>
+	<script src="helper.js"></script>
+	<script>
+		function listen(node, evt, handler){
+			_listen(node, normalizeEventName(evt), handler);
+		}
+
+		function stopListening(node, evt, handler){
+			_stopListening(node, normalizeEventName(evt), handler);
+		}
+	</script>
+</head>
+<body>
+	<div id="container"></div>
+	<script>
+		(function(){
+			var i =-1, l = 1000, container = document.getElementById("container");
+			while (++i < l){
+				var hookupOnClick = (function(){
+					function handler(){
+						this.innerHTML = "foo";
+					}
+					return function(elem){
+						listen(elem, "onclick", handler);
+						return handler;
+					}
+				})();
+				(function(){
+					var e = document.createElement("div");
+					var handler = hookupOnClick(e);
+					// use stopListening(e, "onclick", handler) to de-register
+					container.appendChild(e);
+				})();
+			}
+			container.innerHTML = "";
+		})();
+	</script>
+</body>
+</html>

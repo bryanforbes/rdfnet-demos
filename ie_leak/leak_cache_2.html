@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="refresh" content="2;url=">
+	<title>Leak with Lookup Wrapper 2</title>
+	<script src="helper.js"></script>
+	<script>
+		var _myCache = {};
+		var createWrapper = (function(_cache){
+			var id = 0;
+			function createLookupHandler(id){
+				return function(){
+					if(id in _cache && _cache[id]){
+						_cache[id].apply(this, arguments);
+					}
+				};
+			}
+			function createWrapper(func){
+				var cid = id++,
+					wrapper = createLookupHandler(cid);
+				_cache[cid] = func;
+				return wrapper;
+			}
+
+			return createWrapper;
+		})(_myCache);
+		function listen(node, evt, handler){
+			var wrapper = createWrapper(handler);
+
+			_listen(obj, normalizeEventName(evt), wrapper);
+
+			return wrapper;
+		}
+		function stopListening(node, evt, handler){
+			_stopListening(node, evt, handler);
+		}
+	</script>
+</head>
+<body>
+	<div id="container"></div>
+	<script>
+		(function(){
+			var i =-1, l = 1000, container = document.getElementById("container");
+			while (++i < l){
+				var e = document.createElement("div");
+				(function(elem){
+					function LeakFunc(){
+						elem.innerHTML = "foo";
+					}
+					listen(elem, "onclick", LeakFunc);
+					container.appendChild(elem);
+				})(e);
+			}
+			container.innerHTML = "";
+		})();
+	</script>
+</html>
