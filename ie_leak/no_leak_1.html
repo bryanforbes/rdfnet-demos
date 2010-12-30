@@ -20,7 +20,7 @@
 				var cid = id++,
 					wrapper = createLookupHandler(cid);
 				_cache[cid] = {
-					handler: wrapper,
+					handler: func,
 					element: elem
 				};
 				return wrapper;
