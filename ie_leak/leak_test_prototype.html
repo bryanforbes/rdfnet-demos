@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="refresh" content="2;url=">
+	<title>Leak Test: Prototype</title>
+	<script src="lib/prototype-1.7.0.0.js"></script>
+</head>
+<body>
+	<div id="container"></div>
+	<script>
+		Event.observe(document, "dom:loaded", function(){
+			var i =-1, l = 1000, container = $("container");
+			while (++i < l){
+				var e = new Element("div");
+				(function(elem){
+					function LeakFunc(){
+						elem.innerHTML = "foo";
+					}
+					$(elem).observe("click", LeakFunc);
+					container.appendChild(elem);
+				})(e);
+			}
+			container.innerHTML = "";
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="refresh" content="2;url=">
+	<title>Leak Test: jQuery</title>
+	<script src="lib/jquery-1.4.4.min.js"></script>
+</head>
+<body>
+	<div id="container"></div>
+	<script>
+		$(document).ready(function(){
+			var i =-1, l = 1000, container = $("#container");
+			while (++i < l){
+				var e = document.createElement("div");
+				(function(elem){
+					function LeakFunc(){
+						elem.innerHTML = "foo";
+					}
+					$(elem).bind("click", LeakFunc);
+					container.appendChild(elem);
+				})(e);
+			}
+			container.innerHTML = "";
+		});
+	</script>
+</body>
+</html>

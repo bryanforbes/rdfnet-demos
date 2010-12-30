@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="refresh" content="2;url=">
+	<title>Leak Test: MooTools</title>
+	<script src="lib/mootools-core-1.3-full-nocompat-yc.js"></script>
+</head>
+<body>
+	<div id="container"></div>
+	<script>
+		window.addEvent("domready", function(){
+			var i =-1, l = 1000, container = document.id("container");
+			while (++i < l){
+				var e = new Element("div", {});
+				(function(elem){
+					function LeakFunc(){
+						elem.set("html", "foo");
+					}
+					elem.addEvent("click", LeakFunc);
+					container.grab(elem);
+				})(e);
+			}
+			container.set("html", "");
+		});
+	</script>
+</body>
+</html>

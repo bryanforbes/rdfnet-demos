@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="refresh" content="2;url=">
+	<title>Leak Test: Ext</title>
+	<script src="lib/ext-base-3.3.1.js"></script>
+	<script src="lib/ext-3.3.1-all.js"></script>
+</head>
+<body>
+	<div id="container"></div>
+	<script>
+		Ext.onReady(function(){
+			var i =-1, l = 1000, container = Ext.get("container");
+			while (++i < l){
+				var e = new Ext.Element(document.createElement("div"));
+				(function(elem){
+					function LeakFunc(){
+						elem.update("foo", false);
+					}
+					elem.on("click", LeakFunc);
+					container.appendChild(elem);
+				})(e);
+			}
+			container.update("", false);
+		});
+	</script>
+</body>
+</html>

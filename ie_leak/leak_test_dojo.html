@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="refresh" content="2;url=">
+	<title>Leak Test: Dojo</title>
+	<script src="lib/dojo-1.5.js"></script>
+</head>
+<body>
+	<div id="container"></div>
+	<script>
+		dojo.ready(function(){
+			var i =-1, l = 1000, container = document.getElementById("container");
+			while (++i < l){
+				var e = document.createElement("div");
+				(function(elem){
+					function LeakFunc(){
+						elem.innerHTML = "foo";
+					}
+					dojo.connect(elem, "onclick", LeakFunc);
+					container.appendChild(elem);
+				})(e);
+			}
+			container.innerHTML = "";
+		});
+	</script>
+</body>
+</html>

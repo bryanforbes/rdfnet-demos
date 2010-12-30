@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="refresh" content="2;url=">
+	<title>Leak Test: YUI</title>
+	<script src="lib/yui-3.2.0-min.js"></script>
+</head>
+<body>
+	<div id="container"></div>
+	<script>
+		YUI().use('node', 'event', function(Y){
+			Y.on("domready", function(){
+				var i =-1, l = 1000, container = Y.one("#container");
+				while (++i < l){
+					var e = Y.one(document.createElement("div"));
+					(function(elem){
+						function LeakFunc(){
+							elem.set("innerHTML", "foo");
+						}
+						elem.on("click", LeakFunc);
+						container.appendChild(elem);
+					})(e);
+				}
+				container.set("innerHTML", "");
+			});
+		});
+	</script>
+</body>
+</html>
