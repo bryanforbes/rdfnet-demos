@@ -11,12 +11,16 @@
         return type == 'object' ? !!object[property] : !NON_HOST_TYPES[type];
     }
 
+	// The following coding style is to prevent named function expression
+	// leaks.  For an explanation of named function expressions, see Juriy 
+	// "kangax" Zaytsev's article:
+	// http://kangax.github.com/nfe/
 	if(isHostType(document, "addEventListener")){
 		_listen = function _listen(obj, evt, handler){
-			obj.addEventListener(evt, handler, false);
+			obj.addEventListener(normalizeEventName(evt), handler, false);
 		};
 		_stopListening = function _stopListening(obj, evt, handler){
-			obj.removeEventListener(evt, handler, false);
+			obj.removeEventListener(normalizeEventName(evt), handler, false);
 		};
 		normalizeEventName = function normalizeEventName(/*String*/ name){
 			// Generally, name should be lower case, unless it is special
@@ -26,10 +30,10 @@
 		};
 	}else if(isHostType(document, "attachEvent")){
 		_listen = function _listen(obj, evt, handler){
-			obj.attachEvent(evt, handler);
+			obj.attachEvent(normalizeEventName(evt), handler);
 		};
 		_stopListening = function _stopListening(obj, evt, handler){
-			obj.detachEvent(evt, handler);
+			obj.detachEvent(normalizeEventName(evt), handler);
 		};
 		normalizeEventName = function normalizeEventName(/*String*/ eventName){
 			// Generally, eventName should be lower case, unless it is
